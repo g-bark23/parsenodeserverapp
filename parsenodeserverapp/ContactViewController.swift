@@ -106,6 +106,7 @@ class ContactViewController: UIViewController {
                             } else {
                                 // There was a problem, check error.description
                                 print("save failed")
+                                self.navigationController?.popViewController(animated: true)
                             }
                         }
                     }

@@ -15,6 +15,10 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
     var selectedObject = [PFObject]()
     @IBOutlet var myTable: UITableView!
     
+    @IBAction func logOut(_ sender: Any) {
+        PFUser.logOut()
+        navigationController?.popViewController(animated: true)
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
     }
@@ -40,6 +44,8 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
                     self.myTable.reloadData()
                 }else{
                     print("no contacts")
+                    self.contacts.removeAll()
+                    self.myTable.reloadData()
                 }
             } else {
                 print("Error: \(error!) \(error!._userInfo ?? "" as AnyObject)")
@@ -78,6 +84,8 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
                             (success: Bool, error: Error?) in
                             if (success) {
                                 // The object has been saved.
+                                self.contacts.remove(at: indexPath.row)
+                                tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                                 print(success)
                             } else {
                                 // There was a problem, check error.description

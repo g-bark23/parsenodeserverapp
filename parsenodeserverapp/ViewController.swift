@@ -10,6 +10,7 @@ import UIKit
 import Parse
 class ViewController: UIViewController {
 
+    var myUser: String = ""
     @IBOutlet var warningTF: UILabel!
     @IBOutlet var passwordTF: UITextField!
     @IBOutlet var email: UITextField!
@@ -33,10 +34,21 @@ class ViewController: UIViewController {
                             self.warningTF.text = "Please enter a username and password"
                             self.warningTF.isHidden = false
                         } else {
-                            self.email.text = ""
-                            self.passwordTF.text = ""
-                            self.warningTF.isHidden = true
-                            self.performSegue(withIdentifier: "signUp", sender: nil)
+                            let query = PFQuery(className:"_User")
+                            query.whereKey("username", equalTo: self.email.text)
+                            query.findObjectsInBackground { (objects, error) in
+                                if error == nil {
+                                    if (objects!.count > 0){
+                                        for object in objects! {
+                                            self.myUser = object.objectId as! String
+                                            self.email.text = ""
+                                            self.passwordTF.text = ""
+                                            self.warningTF.isHidden = true
+                                            self.performSegue(withIdentifier: "signUp", sender: nil)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -45,6 +57,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
@@ -58,6 +71,14 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(myUser != ""){
+            let vc = segue.destination as! ContactsTableViewController
+            vc.userID = myUser
+            myUser = ""
+        }
     }
     
     @objc func dismissKeyboard() {

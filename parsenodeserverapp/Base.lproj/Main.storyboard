@@ -164,12 +164,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="vME-E9-ojK">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" style="done" id="8Ec-bj-oyU">
+                            <color key="tintColor" red="1" green="0.59209684126900086" blue="0.017585449042647361" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="logOut:" destination="rxX-lM-tet" id="XVI-2t-kP1"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="O8t-IA-fmJ">
                             <connections>
                                 <segue destination="Lgq-y7-nE4" kind="show" identifier="contact" id="ouM-H7-2uq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="myTable" destination="IZd-yU-rm7" id="SYh-ba-wTB"/>
                     </connections>
@@ -331,6 +338,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tMF-H6-ZbZ"/>
+        <segue reference="nvV-c2-UJx"/>
     </inferredMetricsTieBreakers>
 </document>
